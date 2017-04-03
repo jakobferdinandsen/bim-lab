@@ -1,0 +1,19 @@
+{
+  "name": "bim-lab",
+  "version": "1.0.0",
+  "description": "Digital Signage for BIM Lab",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jakobferdinandsen/bim-lab.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jakobferdinandsen/bim-lab/issues"
+  },
+  "homepage": "https://github.com/jakobferdinandsen/bim-lab#readme"
+}
