@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var Article = require('../../models/article');
+var Config = require('../../models/config');
 
 router.use(function (req, res, next) {
     console.log(req.url);
@@ -9,66 +9,66 @@ router.use(function (req, res, next) {
 
 router.route('/')
     .post(function (req, res) {
-        var article = new Article();
-        article.active = 1;
-        article.header = req.body.header;
-        article.body = req.body.body;
-        article.save(function (err) {
+        var config = new Config();
+        config.active = 1;
+        config.name = req.body.name;
+        config.value = req.body.value;
+        config.save(function (err) {
             if (err) {
                 res.send(err);
             }
             res.json({
-                message: 'Article created!'
+                message: 'Config created!'
             });
         });
     })
     .get(function (req, res) {
-        Article.find(function (err, articles) {
+        Config.find(function (err, configs) {
             if (err) {
                 res.send(err);
             }
-            res.json(articles);
+            res.json(configs);
         });
     });
 
-router.route('/:article_id')
+router.route('/:config_id')
     .get(function (req, res) {
-        Article.findById(req.params.article_id, function (err, article) {
+        Config.findById(req.params.config_id, function (err, config) {
             if (err) {
                 res.send(err);
             }
-            res.json(article);
+            res.json(config);
         });
     })
     .put(function (req, res) {
-        Article.findById(req.params.article_id, function (err, article) {
+        Config.findById(req.params.config_id, function (err, config) {
             if (err) {
                 res.send(err);
             }
-            if (req.body.header !== "") {
-                article.header = req.body.header;
+            if (req.body.name !== "") {
+                config.name = req.body.header;
             }
             if (req.body.body !== "") {
-                article.body = req.body.body;
+                config.value = req.body.value;
             }
-            article.save(function (err) {
+            config.save(function (err) {
                 if (err){
                     res.send(err);
                 }
-                res.json({ message: 'Article update!' })
+                res.json({ message: 'Config update!' })
             })
         });
     })
     .delete(function (req, res) {
-        Article.findById(req.params.article_id, function (err, article) {
+        Config.findById(req.params.config_id, function (err, config) {
             if (err) {
                 res.send(err);
             }
-            article.save(function (err) {
+            config.save(function (err) {
                 if (err){
                     res.send(err);
                 }
-                res.json({ message: 'Article deactivated!'});
+                res.json({ message: 'Config deactivated!'});
             });
         });
     });

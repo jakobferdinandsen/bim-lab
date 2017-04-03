@@ -5,7 +5,7 @@ var article = require('../models/article');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-    config.findOne({name: 'shownArticle'}, function (err, config) {
+    config.findOne({name: 'selectedArticle'}, function (err, config) {
         article.findOne({_id: config.value}, function (err, article) {
             res.render('index', {
                 title: 'BIM Lab',

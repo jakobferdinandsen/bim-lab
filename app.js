@@ -7,10 +7,13 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var articles = require('./routes/api/articles');
+var configs = require('./routes/api/configs');
 var api = require('./routes/api');
 
 var app = express();
 
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://mongo:27017/bimlab');
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -26,9 +29,12 @@ app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); /
 app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); // redirect JS jQuery
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
 
+
+// Routes
 app.use('/', index);
 app.use('/api', api);
 app.use('/api/articles', articles);
+app.use('/api/configs', configs);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
