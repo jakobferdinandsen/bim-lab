@@ -1,32 +1,15 @@
-// server.js
-
-// BASE SETUP
-// =============================================================================
-
-// call the packages we need
-var express = require('express');        // call express
-var app = express();                 // define our app using express
-var bodyParser = require('body-parser');
+var express = require('express');
+var router = express.Router();
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://mongo:27017/bimlab');
-var Article = require('./app/models/article');
+var Article = require('../../models/article');
 
-// configure app to use bodyParser()
-// this will let us get the data from a POST
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
-
-var port = process.env.PORT || 8080;        // set our port
-
-// ROUTES FOR OUR API
-// =============================================================================
-var router = express.Router();              // get an instance of the express Router
 router.use(function (req, res, next) {
     console.log(req.url);
     next();
 });
 
-router.route('/articles')
+router.route('/')
     .post(function (req, res) {
         var article = new Article();
         article.active = 1;
@@ -50,7 +33,7 @@ router.route('/articles')
         });
     });
 
-router.route('/articles/:article_id')
+router.route('/:article_id')
     .get(function (req, res) {
         Article.findById(req.params.article_id, function (err, article) {
             if (err) {
@@ -92,18 +75,5 @@ router.route('/articles/:article_id')
         });
     });
 
-// test route to make sure everything is working (accessed at GET http://localhost:8080/api)
-router.get('/', function (req, res) {
-    res.json({message: 'hooray! welcome to our api!'});
-});
 
-// more routes for our API will happen here
-
-// REGISTER OUR ROUTES -------------------------------
-// all of our routes will be prefixed with /api
-app.use('/api', router);
-
-// START THE SERVER
-// =============================================================================
-app.listen(port);
-console.log('Magic happens on port ' + port);
+module.exports = router;
