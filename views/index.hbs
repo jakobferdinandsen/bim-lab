@@ -1,2 +1,11 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<div id="flex-container">
+    <div id="header-holder" class="page-header col-lg-12">
+        <h1>
+            {{articleHeader}}
+        </h1>
+    </div>
+    <article class="col-lg-8">
+        {{articleBody}}
+    </article>
+    <img class="img-responsive col-lg-4" src="{{articleImage}}" alt="image"/>
+</div>
