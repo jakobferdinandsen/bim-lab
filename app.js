@@ -4,13 +4,13 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
-var index = require('./routes/index');
-var articles = require('./routes/api/articles');
-var configs = require('./routes/api/configs');
-var api = require('./routes/api');
+var fa = require("fontawesome");
 
 var app = express();
+
+var passport = require('passport');
+var session = require('express-session');
+var flash = require('connect-flash');
 
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://mongo:27017/bimlab');
@@ -29,12 +29,24 @@ app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); /
 app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); // redirect JS jQuery
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
 
+app.use(session({ secret: 'bgfhdghjgddsduggsfgsdftfsdfgsdftsdfgsdfg' }));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+
 
 // Routes
+var index = require('./routes/index');
+var articles = require('./routes/api/articles');
+var configs = require('./routes/api/configs');
+var api = require('./routes/api');
+var users = require('./routes/admin/user');
+
 app.use('/', index);
 app.use('/api', api);
 app.use('/api/articles', articles);
 app.use('/api/configs', configs);
+app.use('/admin', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
