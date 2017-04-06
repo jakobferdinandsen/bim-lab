@@ -1,24 +1,31 @@
 var express = require('express');
 var router = express.Router();
-var passport = require('passport');
 
 /* GET Api doc. */
-router.get('/', function (req, res, next) {
+router.get('/', isLoggedIn, function (req, res, next) {
     res.render('admin/index', {
         title: 'BIM Labs API'
     });
 });
 
-router.get('/login', function (req, res, next) {
-    res.render('admin/login', {
-        message: req.flash('loginMessage')
+module.exports.router = router;
+module.exports.passport = function (app, passport) {
+    router.get('/login', function (req, res, next) {
+        res.render('admin/login', {
+            message: req.flash('loginMessage')
+        });
     });
-});
 
-router.post('/login', passport.authenticate('local-login', {
-    successRedirect: '/admin/index',
-    failureRedirect: '/admin/login',
-    failureFlash: true
-}));
+    router.post('/login', passport.authenticate('local-login', {
+        successRedirect: '/admin/',
+        failureRedirect: '/admin/login',
+        failureFlash: true
+    }));
+};
 
-module.exports = router;
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect('/admin/login');
+}

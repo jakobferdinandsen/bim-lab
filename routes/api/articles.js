@@ -8,7 +8,7 @@ router.use(function (req, res, next) {
 });
 
 router.route('/')
-    .post(function (req, res) {
+    .post(isLoggedIn, function (req, res) {
         var article = new Article();
         article.active = 1;
         article.header = req.body.header;
@@ -40,7 +40,7 @@ router.route('/:article_id')
             res.json(article);
         });
     })
-    .put(function (req, res) {
+    .put(isLoggedIn, function (req, res) {
         Article.findById(req.params.article_id, function (err, article) {
             if (err) {
                 res.send(err);
@@ -52,26 +52,34 @@ router.route('/:article_id')
                 article.body = req.body.body;
             }
             article.save(function (err) {
-                if (err){
+                if (err) {
                     res.send(err);
                 }
-                res.json({ message: 'Article update!' })
+                res.json({message: 'Article update!'})
             })
         });
     })
-    .delete(function (req, res) {
+    .delete(isLoggedIn, function (req, res) {
         Article.findById(req.params.article_id, function (err, article) {
             if (err) {
                 res.send(err);
             }
+            article.active = 0;
             article.save(function (err) {
-                if (err){
+                if (err) {
                     res.send(err);
                 }
-                res.json({ message: 'Article deactivated!'});
+                res.json({message: 'Article deactivated!'});
             });
         });
     });
 
 
 module.exports = router;
+
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.json({message: "Authentication required"});
+}

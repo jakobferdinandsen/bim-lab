@@ -8,11 +8,11 @@ router.use(function (req, res, next) {
 });
 
 router.route('/')
-    .post(function (req, res) {
+    .post(isLoggedIn, function (req, res) {
         var user = new User();
         user.email = req.body.email;
         user.password = user.generateHash(req.body.password);
-        if (!user.email || !user.password){
+        if (!user.email || !user.password) {
             res.json({
                 message: 'email & password required'
             });
@@ -27,7 +27,7 @@ router.route('/')
             });
         });
     })
-    .get(function (req, res) {
+    .get(isLoggedIn, function (req, res) {
         User.find(function (err, users) {
             if (err) {
                 res.send(err);
@@ -37,7 +37,7 @@ router.route('/')
     });
 
 router.route('/:user_id')
-    .get(function (req, res) {
+    .get(isLoggedIn, function (req, res) {
         User.findById(req.params.user_id, function (err, user) {
             if (err) {
                 res.send(err);
@@ -45,7 +45,7 @@ router.route('/:user_id')
             res.json(user);
         });
     })
-    .put(function (req, res) {
+    .put(isLoggedIn, function (req, res) {
         User.findById(req.params.user_id, function (err, user) {
             if (err) {
                 res.send(err);
@@ -57,26 +57,32 @@ router.route('/:user_id')
                 user.password = req.body.password;
             }
             user.save(function (err) {
-                if (err){
+                if (err) {
                     res.send(err);
                 }
-                res.json({ message: 'User update!' })
+                res.json({message: 'User update!'})
             })
         });
     })
-    .delete(function (req, res) {
+    .delete(isLoggedIn, function (req, res) {
         User.findById(req.params.user_id, function (err, user) {
             if (err) {
                 res.send(err);
             }
             user.save(function (err) {
-                if (err){
+                if (err) {
                     res.send(err);
                 }
-                res.json({ message: 'User deactivated!'});
+                res.json({message: 'User deactivated!'});
             });
         });
     });
 
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.json({message: "Authentication required"});
+}
 
 module.exports = router;

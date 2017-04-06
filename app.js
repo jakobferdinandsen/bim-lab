@@ -41,7 +41,8 @@ app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
 var index = require('./routes/index');
 var admin = require('./routes/admin');
 app.use('/', index);
-app.use('/admin', admin);
+app.use('/admin', admin.router);
+admin.passport(app, passport);
 
 // API routes
 var articles = require('./routes/api/articles');
