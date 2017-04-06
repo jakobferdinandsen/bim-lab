@@ -8,6 +8,11 @@ router.get('/', isLoggedIn, function (req, res, next) {
     });
 });
 
+router.get('/logout', function (req, res, next) {
+    req.logout();
+    res.redirect('/admin/login');
+});
+
 module.exports.router = router;
 module.exports.passport = function (app, passport) {
     router.get('/login', function (req, res, next) {
@@ -17,7 +22,7 @@ module.exports.passport = function (app, passport) {
     });
 
     router.post('/login', passport.authenticate('local-login', {
-        successRedirect: '/admin/',
+        successRedirect: '/admin/#dashboard',
         failureRedirect: '/admin/login',
         failureFlash: true
     }));
