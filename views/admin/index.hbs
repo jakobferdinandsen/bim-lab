@@ -31,15 +31,15 @@
                             <tr id="selectedRow" data-id="{{selectedArticle._id}}">
                                 <td>{{selectedArticle.header}}</td>
                                 <td class="text-right">
-                                    <button class='btn btn-success btn-xs showEmail' data-toggle='collapse'
+                                    <button class='btn btn-success btn-xs showArticle' data-toggle='collapse'
                                             data-target='#selected{{selectedArticle._id}}'><i
                                             class='fa fa-expand'></i> Expand
                                     </button>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr class="collapse tr-collapse" id='selected{{selectedArticle._id}}'>
                                 <td colspan='2'>
-                                    <div class="collapse" id='selected{{selectedArticle._id}}'>
+                                    <div>
                                         {{selectedArticle.body}}
                                     </div>
                                 </td>
@@ -53,34 +53,36 @@
                     </tbody>
                 </table>
                 <h3>Articles</h3>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Header</th>
-                            <th class="text-right">Functions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {{#each articles}}
-                            <tr data-id="{{_id}}">
-                                <td>{{header}}</td>
-                                <td class="text-right">
-                                    <button class='btn btn-success btn-xs showEmail' data-toggle='collapse'
-                                            data-target='#article{{_id}}'><i
-                                            class='fa fa-expand'></i> Expand
-                                    </button>
-                                </td>
+                <div style="height: 30vh; overflow: auto">
+                    <table class="table table-striped table-responsive">
+                        <thead>
+                            <tr>
+                                <th>Header</th>
+                                <th class="text-right">Functions</th>
                             </tr>
-                            <tr class='collapse' id='article{{_id}}'>
-                                <td colspan='2'>
-                                    <div>
-                                        {{body}}
-                                    </div>
-                                </td>
-                            </tr>
-                        {{/each}}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {{#each articles}}
+                                <tr data-id="{{_id}}">
+                                    <td>{{header}}</td>
+                                    <td class="text-right">
+                                        <button class='btn btn-success btn-xs showArticle' data-toggle='collapse'
+                                                data-target='#article{{_id}}'><i
+                                                class='fa fa-expand'></i> Expand
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class='collapse tr-collapse' id='article{{_id}}'>
+                                    <td colspan='2'>
+                                        <div>
+                                            {{body}}
+                                        </div>
+                                    </td>
+                                </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div class="tab-pane" id="users">
                 <button type="button" class="btn btn-primary btn-xs pull-right" data-toggle="modal"
