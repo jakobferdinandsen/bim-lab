@@ -1,91 +1,152 @@
 <link rel='stylesheet' href='/stylesheets/admin/index.css'/>
-<div class="admin-panel clearfix">
-    <div class="slidebar">
-        <div>
-            <a href="/admin/#dashboard">
-                <img src="/images/EASJ_logo.png" alt="easj" class="img-responsive">
-            </a>
+<div class="container">
+    <div class="well" style="background: white">
+        <div class="page-header">
+            <h1>BIM Lab admin panel
+                <small>Digital Signage</small>
+            </h1>
         </div>
-        <ul>
-            <li><a href="#dashboard" id="targeted">dashboard</a></li>
-            <li><a href="#posts">Articles</a></li>
-            <li><a href="#media">Users</a></li>
-            <li><a href="#pages">Config</a></li>
-            <li><a href="#links">stats</a></li>
+        <ul class="nav nav-pills nav-justified" style="width: 100%;">
+            <li role="presentation" class="active"><a href="#articles" data-toggle="tab"
+                                                      aria-expanded="false">Articles</a></li>
+            <li role="presentation"><a href="#users" data-toggle="tab" aria-expanded="false">Users</a></li>
         </ul>
-    </div>
-    <div class="main">
-        <div class="mainContent clearfix">
-            <div id="dashboard">
-                <h2 class="header"><span class="icon"></span>Dashboard</h2>
-                <div class="monitor">
-                    <h4>Right Now</h4>
-                    <div class="clearfix">
-                        <ul class="content">
-                            <li>content</li>
-                            <li class="posts"><span class="count">179</span><a href="">posts</a></li>
-                            <li class="pages"><span class="count">13</span><a href="">pages</a></li>
-                            <li class="categories"><span class="count">21</span><a href="">categories</a></li>
-                            <li class="tags"><span class="count">305</span><a href="">tags</a></li>
-                        </ul>
-                        <ul class="discussions">
-                            <li>discussions</li>
-                            <li class="comments"><span class="count">353</span><a href="">comments</a></li>
-                            <li class="approved"><span class="count">319</span><a href="">approved</a></li>
-                            <li class="pending"><span class="count">0</span><a href="">pending</a></li>
-                            <li class="spam"><span class="count">34</span><a href="">spam</a></li>
-                        </ul>
-                    </div>
-                    <p>Theme <a href="">Twenty Eleven</a> with <a href="">3 widgets</a></p>
-                </div>
-                <div class="quick-press">
-                    <h4>Quick Press</h4>
-                    <form action="" method="post">
-                        <input type="text" name="title" placeholder="Title"/>
-                        <input type="text" name="content" placeholder="Content"/>
-                        <input type="text" name="tags" placeholder="Tags"/>
-                        <button type="button" class="save">l</button>
-                        <button type="button" class="delet">m</button>
-                        <button type="submit" class="submit" name="submit">Publish</button>
-                    </form>
-                </div>
+        <br/>
+        <div class="tab-content">
+            <div class="tab-pane active" id="articles">
+                <button type="button" class="btn btn-primary btn-xs pull-right" data-toggle="modal"
+                        data-target="#createNewArticle">
+                    Create new article
+                </button>
+                <h3>Selected Article</h3>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Header</th>
+                            <th class="text-right">Functions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#if selectedArticle}}
+                            <tr id="selectedRow" data-id="{{selectedArticle._id}}">
+                                <td>{{selectedArticle.header}}</td>
+                                <td class="text-right">
+                                    <button class='btn btn-success btn-xs showEmail' data-toggle='collapse'
+                                            data-target='#selected{{selectedArticle._id}}'><i
+                                            class='fa fa-expand'></i> Expand
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan='2'>
+                                    <div class="collapse" id='selected{{selectedArticle._id}}'>
+                                        {{selectedArticle.body}}
+                                    </div>
+                                </td>
+                            </tr>
+                        {{else}}
+                            <tr id="selectedRow">
+                                <td>No article selected</td>
+                                <td class="text-right"></td>
+                            </tr>
+                        {{/if}}
+                    </tbody>
+                </table>
+                <h3>Articles</h3>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Header</th>
+                            <th class="text-right">Functions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each articles}}
+                            <tr data-id="{{_id}}">
+                                <td>{{header}}</td>
+                                <td class="text-right">
+                                    <button class='btn btn-success btn-xs showEmail' data-toggle='collapse'
+                                            data-target='#article{{_id}}'><i
+                                            class='fa fa-expand'></i> Expand
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr class='collapse' id='article{{_id}}'>
+                                <td colspan='2'>
+                                    <div>
+                                        {{body}}
+                                    </div>
+                                </td>
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
             </div>
-            <div id="posts">
-                <h2 class="header">posts</h2>
-            </div>
-            <div id="media">
-                <h2 class="header">media</h2>
-            </div>
-            <div id="pages">
-                <h2 class="header">pages</h2>
-            </div>
-            <div id="links">
-                <h2 class="header">links</h2>
-            </div>
-            <div id="comments">
-                <h2 class="header">comments</h2>
-            </div>
-            <div id="widgets">
-                <h2 class="header">widgets</h2>
-            </div>
-            <div id="plugins">
-                <h2 class="header">plugins</h2>
-            </div>
-            <div id="users">
-                <h2 class="header">users</h2>
-            </div>
-            <div id="tools">
-                <h2 class="header">tools</h2>
-            </div>
-            <div id="settings">
-                <h2 class="header">settings</h2>
+            <div class="tab-pane" id="users">
+                <button type="button" class="btn btn-primary btn-xs pull-right" data-toggle="modal"
+                        data-target="#createNewUser">
+                    Create new user
+                </button>
+                This is users
             </div>
         </div>
-        <ul class="statusbar">
-            <li><a href=""></a></li>
-            <li><a href=""></a></li>
-            <li><a href=""></a></li>
-            <li class="logout"><a href="/admin/logout">Logout</a></li>
-        </ul>
     </div>
 </div>
+
+<div class="modal fade" id="createNewArticle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Create new article</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="newHeader">Header</label>
+                    <input type="text" class="form-control" id="newHeader" placeholder="Header">
+                </div>
+                <div class="form-group">
+                    <label for="ckeditor">Body</label>
+                    <textarea name="ckeditor" id="ckeditor" cols="80" rows="10"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="newImage">Image</label>
+                    <input type="file" id="newImage">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="createNewUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Create new user</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="newEmail">Email address</label>
+                    <input type="email" class="form-control" id="newEmail" placeholder="Email">
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">Password</label>
+                    <input type="password" class="form-control" id="newPassword" placeholder="Password">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/javascripts/admin/index.js"></script>

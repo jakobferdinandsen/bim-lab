@@ -1,10 +1,29 @@
 var express = require('express');
 var router = express.Router();
+var Article = require('../models/article');
+var Config = require('../models/config');
 
 /* GET Api doc. */
 router.get('/', isLoggedIn, function (req, res, next) {
-    res.render('admin/index', {
-        title: 'BIM Labs API'
+    Config.findOne({name: 'selectedArticle'}, function (err, config) {
+        if (config === null) {
+            Article.find(function (err, articles) {
+                res.render('admin/index', {
+                    title: 'BIM Labs API',
+                    articles: articles
+                });
+            });
+        } else {
+            Article.findOne({_id: config.value}, function (err, article) {
+                Article.find(function (err, articles) {
+                    res.render('admin/index', {
+                        title: 'BIM Labs API',
+                        selectedArticle: article,
+                        articles: articles
+                    });
+                });
+            });
+        }
     });
 });
 
@@ -22,7 +41,7 @@ module.exports.passport = function (app, passport) {
     });
 
     router.post('/login', passport.authenticate('local-login', {
-        successRedirect: '/admin/#dashboard',
+        successRedirect: '/admin/',
         failureRedirect: '/admin/login',
         failureFlash: true
     }));
