@@ -30,7 +30,7 @@ $(function () {
     $(".selectArticle").on('click', function () {
         var id = $(this).parent().parent().attr('data-id');
         $.ajax({
-            method: "POST",
+            method: "PUT",
             url: "/api/configs/selectedArticle",
             data:{
                 value: id

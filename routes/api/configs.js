@@ -31,50 +31,8 @@ router.route('/')
         });
     });
 
-router.route('/:config_id')
-    .get(function (req, res) {
-        Config.findById(req.params.config_id, function (err, config) {
-            if (err) {
-                res.send(err);
-            }
-            res.json(config);
-        });
-    })
-    .put(function (req, res) {
-        Config.findById(req.params.config_id, function (err, config) {
-            if (err) {
-                res.send(err);
-            }
-            if (req.body.name !== "") {
-                config.name = req.body.header;
-            }
-            if (req.body.body !== "") {
-                config.value = req.body.value;
-            }
-            config.save(function (err) {
-                if (err){
-                    res.send(err);
-                }
-                res.json({ message: 'Config update!' })
-            })
-        });
-    })
-    .delete(function (req, res) {
-        Config.findById(req.params.config_id, function (err, config) {
-            if (err) {
-                res.send(err);
-            }
-            config.save(function (err) {
-                if (err){
-                    res.send(err);
-                }
-                res.json({ message: 'Config deactivated!'});
-            });
-        });
-    });
-
 router.route('/:config_name')
-    .get(function (req, res) {
+    .get(isLoggedIn, function (req, res) {
         Config.findOne({name: req.params.config_name}, function (err, config) {
             if (err) {
                 res.send(err);
@@ -82,7 +40,7 @@ router.route('/:config_name')
             res.json(config);
         });
     })
-    .put(function (req, res) {
+    .put(isLoggedIn, function (req, res) {
         Config.findOne({name: req.params.config_name}, function (err, config) {
             if (err) {
                 res.send(err);
@@ -98,7 +56,7 @@ router.route('/:config_name')
             })
         });
     })
-    .delete(function (req, res) {
+    .delete(isLoggedIn, function (req, res) {
         Config.findOne({name: req.params.config_name}, function (err, config) {
             if (err) {
                 res.send(err);
@@ -115,3 +73,10 @@ router.route('/:config_name')
 
 
 module.exports = router;
+
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.json({message: "Authentication required"});
+}
