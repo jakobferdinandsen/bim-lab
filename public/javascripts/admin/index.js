@@ -26,4 +26,22 @@ $(function () {
             }
         })
     });
+
+    $(".selectArticle").on('click', function () {
+        var id = $(this).parent().parent().attr('data-id');
+        $.ajax({
+            method: "POST",
+            url: "/api/configs/selectedArticle",
+            data:{
+                value: id
+            },
+            dataType: "json",
+            success: function (data) {
+                console.log(data.message);
+            },
+            error: function () {
+                console.log('Wompwomp');
+            }
+        })
+    });
 });

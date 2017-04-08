@@ -73,5 +73,45 @@ router.route('/:config_id')
         });
     });
 
+router.route('/:config_name')
+    .get(function (req, res) {
+        Config.findOne({name: req.params.config_name}, function (err, config) {
+            if (err) {
+                res.send(err);
+            }
+            res.json(config);
+        });
+    })
+    .put(function (req, res) {
+        Config.findOne({name: req.params.config_name}, function (err, config) {
+            if (err) {
+                res.send(err);
+            }
+            if (req.body.value !== "") {
+                config.value = req.body.value;
+            }
+            config.save(function (err) {
+                if (err){
+                    res.send(err);
+                }
+                res.json({ message: 'Config update!' })
+            })
+        });
+    })
+    .delete(function (req, res) {
+        Config.findOne({name: req.params.config_name}, function (err, config) {
+            if (err) {
+                res.send(err);
+            }
+            config.active = false;
+            config.save(function (err) {
+                if (err){
+                    res.send(err);
+                }
+                res.json({ message: 'Config deactivated!'});
+            });
+        });
+    });
+
 
 module.exports = router;

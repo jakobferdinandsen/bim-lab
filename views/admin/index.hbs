@@ -70,6 +70,10 @@
                                 <tr data-id="{{_id}}">
                                     <td>{{header}}</td>
                                     <td class="text-right">
+                                    <td class="text-right">
+                                        <button class='btn btn-primary btn-xs selectArticle' data-toggle='collapse'
+                                                data-target='#selected{{selectedArticle._id}}'>Make primary
+                                        </button>
                                         <button class='btn btn-success btn-xs showArticle' data-toggle='collapse'
                                                 data-target='#article{{_id}}'><i
                                                 class='fa fa-expand'></i> Expand
@@ -126,7 +130,9 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button id="createArticleButton" type="button" class="btn btn-primary" data-dismiss="modal">Create article</button>
+                <button id="createArticleButton" type="button" class="btn btn-primary" data-dismiss="modal">Create
+                    article
+                </button>
             </div>
         </div>
     </div>
