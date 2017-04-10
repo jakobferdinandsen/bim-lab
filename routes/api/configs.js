@@ -45,6 +45,12 @@ router.route('/:config_name')
             if (err) {
                 res.send(err);
             }
+            if (config === null){
+                config = new Config();
+                config.name = req.params.config_name;
+                config.value = req.body.value;
+                config.save();
+            }
             if (req.body.value !== "") {
                 config.value = req.body.value;
             }

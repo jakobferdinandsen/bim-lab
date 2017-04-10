@@ -7,19 +7,17 @@ var Article = require('../models/article');
 router.get('/', function (req, res, next) {
     Config.findOne({name: 'selectedArticle'}, function (err, config) {
         if (config === null) {
-            res.render('index', {
-                title: 'BIM Lab',
-                articleHeader: 'Config not found',
-                articleBody: 'Config not found',
-            });
-            return;
+            config = new Config();
+            config.name = 'selectedArticle';
+            config.value = "";
+            config.save();
         }
         Article.findOne({_id: config.value}, function (err, article) {
             if (article === null) {
                 res.render('index', {
                     title: 'BIM Lab',
                     articleHeader: 'Article not found',
-                    articleBody: 'Article not found',
+                    articleBody: 'Article not found'
                 });
                 return;
             }
