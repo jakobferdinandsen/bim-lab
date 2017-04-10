@@ -4,7 +4,7 @@ var ArticleSchema = new Schema({
     active: Boolean,
     header: String,
     body: String,
-    picture: String
+    img: Buffer
 });
 
 module.exports = mongoose.model('Article', ArticleSchema);

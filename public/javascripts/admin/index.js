@@ -10,7 +10,6 @@ $(function () {
         var articleId = $(this).closest('tr').attr('data-id');
         var header = jQuery($(this).parent().parent().children()[0]).text();
         var body = $(this).closest('tr').next('tr').find('div.well').html();
-        console.log(body);
         $("#newHeader").val(header);
         CKEDITOR.instances['ckeditor'].setData(body);
         $("#createArticleButton").html("Update");
@@ -23,11 +22,8 @@ $(function () {
         CKEDITOR.instances['ckeditor'].setData("");
         $("#createArticleButton").html("Create");
         $("#createArticleButton").attr('data-articleId', "");
+        $("#newImage").val("");
     }
-
-    $("button[data-target='#createNewArticle']").on('click',function () {
-        clearArticleModal();
-    });
 
     $("#createArticleButton").on('click', function () {
         var header = $("#newHeader").val();
@@ -39,23 +35,52 @@ $(function () {
             method = "PUT";
             url = "/api/articles/" + id;
         }
-        $.ajax({
-            method: method,
-            url: url,
-            data: {
-                header: header,
-                body: body
-            },
-            success: function (article) {
-                if (id !== "") {
-                    removeArticle(article);
+        var fileInput = $("#newImage");
+        if (fileInput[0].files && fileInput[0].files[0]) {
+            var fr = new FileReader();
+            fr.addEventListener("load", function (e) {
+                var img = e.target.result;
+                $.ajax({
+                    method: method,
+                    url: url,
+                    data: {
+                        header: header,
+                        body: body,
+                        img: img
+                    },
+                    success: function (article) {
+                        if (id !== "") {
+                            removeArticle(article);
+                        }
+                        addArticle(article);
+                        clearArticleModal();
+                    },
+                    error: function () {
+                        console.log('Wompwomp');
+                    }
+                });
+            });
+            fr.readAsDataURL(fileInput[0].files[0]);
+        }else{
+            $.ajax({
+                method: method,
+                url: url,
+                data: {
+                    header: header,
+                    body: body
+                },
+                success: function (article) {
+                    if (id !== "") {
+                        removeArticle(article);
+                    }
+                    addArticle(article);
+                    clearArticleModal();
+                },
+                error: function () {
+                    console.log('Wompwomp');
                 }
-                addArticle(article);
-            },
-            error: function () {
-                console.log('Wompwomp');
-            }
-        });
+            });
+        }
     });
 
     $(document).on('click', ".selectArticle", function () {
@@ -90,6 +115,7 @@ $(function () {
             }
         });
     });
+
 
     function addArticle(article) {
         $("#articleTableBody").append(Handlebars.templates.tRowArticleTemplate(article));
@@ -144,7 +170,7 @@ $(function () {
     }
 
     //Users
-    $("button[data-target='#createNewUser']").on('click',function () {
+    $("button[data-target='#createNewUser']").on('click', function () {
         clearUserModal();
     });
 

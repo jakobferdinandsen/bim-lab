@@ -14,6 +14,7 @@ router.route('/')
         article.active = 1;
         article.header = req.body.header;
         article.body = req.body.body;
+        article.img = req.body.img;
         article.save(function (err) {
             if (err) {
                 res.send(err);
@@ -50,6 +51,9 @@ router.route('/:article_id')
             }
             if (req.body.body !== "") {
                 article.body = req.body.body;
+            }
+            if (req.body.img != null){
+                article.img = req.body.img;
             }
             article.save(function (err) {
                 if (err) {
