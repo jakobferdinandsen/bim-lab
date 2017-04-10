@@ -1,0 +1,20 @@
+<tr data-id="{{_id}}">
+    <td>{{header}}</td>
+    <td class="text-right">
+        <button class='btn btn-success btn-xs showArticle' data-toggle='collapse'
+                data-target='#selected{{_id}}'><i
+                class='fa fa-expand'></i> Expand
+        </button>
+    </td>
+</tr>
+<tr class="panel">
+    <td colspan='2' class="hiddenRow">
+        <div class="collapse panel-collapse container-fluid"
+             id='selected{{_id}}'>
+            <br/>
+            <div class="well">
+                {{{body}}}
+            </div>
+        </div>
+    </td>
+</tr>

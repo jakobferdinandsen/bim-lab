@@ -52,8 +52,8 @@ router.route('/:config_name')
                 if (err){
                     res.send(err);
                 }
-                res.json({ message: 'Config update!' })
-            })
+                res.json(config);
+            });
         });
     })
     .delete(isLoggedIn, function (req, res) {

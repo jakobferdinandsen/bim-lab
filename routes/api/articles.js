@@ -17,9 +17,7 @@ router.route('/')
             if (err) {
                 res.send(err);
             }
-            res.json({
-                message: 'Article created!'
-            });
+            res.json(article);
         });
     })
     .get(function (req, res) {
@@ -69,7 +67,7 @@ router.route('/:article_id')
                 if (err) {
                     res.send(err);
                 }
-                res.json({message: 'Article deactivated!'});
+                res.json(article);
             });
         });
     });

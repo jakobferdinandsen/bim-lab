@@ -1,0 +1,21 @@
+<tr data-id="{{_id}}">
+    <td>{{header}}</td>
+    <td class="text-right">
+        <button class='btn btn-primary btn-xs selectArticle'>Make primary</button>
+        <button class='btn btn-danger btn-xs deleteArticle'>Remove</button>
+        <button class='btn btn-success btn-xs showArticle' data-toggle='collapse'
+                data-target='#article{{_id}}'><i
+                class='fa fa-expand'></i> Expand
+        </button>
+    </td>
+</tr>
+<tr class="panel">
+    <td colspan='2' class="hiddenRow">
+        <div class='collapse panel-collapse container-fluid' id='article{{_id}}'>
+            <br/>
+            <div class="well">
+                {{{body}}}
+            </div>
+        </div>
+    </td>
+</tr>

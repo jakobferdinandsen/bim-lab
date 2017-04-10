@@ -1,11 +1,11 @@
 var express = require('express');
 var router = express.Router();
-var config = require('../models/config');
-var article = require('../models/article');
+var Config = require('../models/config');
+var Article = require('../models/article');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-    config.findOne({name: 'selectedArticle'}, function (err, config) {
+    Config.findOne({name: 'selectedArticle'}, function (err, config) {
         if (config === null) {
             res.render('index', {
                 title: 'BIM Lab',
@@ -15,7 +15,7 @@ router.get('/', function (req, res, next) {
             });
             return;
         }
-        article.findOne({_id: config.value}, function (err, article) {
+        Article.findOne({_id: config.value}, function (err, article) {
             if (article === null) {
                 res.render('index', {
                     title: 'BIM Lab',

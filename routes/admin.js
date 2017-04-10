@@ -9,17 +9,21 @@ router.get('/', isLoggedIn, function (req, res, next) {
         if (config === null) {
             Article.find(function (err, articles) {
                 res.render('admin/index', {
-                    title: 'BIM Labs API',
+                    title: 'BIM Labs Admin interface',
                     articles: articles
                 });
             });
         } else {
             Article.findOne({_id: config.value}, function (err, article) {
-                Article.find(function (err, articles) {
+                Article.find({active: true}, function (err, articles) {
+                    var filteredArticles = articles.filter(function (arrayArticle) {
+                        return String(arrayArticle._id) !== String(article._id);
+
+                    });
                     res.render('admin/index', {
-                        title: 'BIM Labs API',
+                        title: 'BIM Labs Admin interface',
                         selectedArticle: article,
-                        articles: articles
+                        articles: filteredArticles
                     });
                 });
             });

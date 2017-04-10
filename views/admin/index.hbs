@@ -26,9 +26,9 @@
                             <th class="text-right">Functions</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="selectedRow">
                         {{#if selectedArticle}}
-                            <tr id="selectedRow" data-id="{{selectedArticle._id}}">
+                            <tr data-id="{{selectedArticle._id}}">
                                 <td>{{selectedArticle.header}}</td>
                                 <td class="text-right">
                                     <button class='btn btn-success btn-xs showArticle' data-toggle='collapse'
@@ -43,13 +43,13 @@
                                          id='selected{{selectedArticle._id}}'>
                                         <br/>
                                         <div class="well">
-                                            {{selectedArticle.body}}
+                                            {{{selectedArticle.body}}}
                                         </div>
                                     </div>
                                 </td>
                             </tr>
                         {{else}}
-                            <tr id="selectedRow">
+                            <tr>
                                 <td>No article selected</td>
                                 <td class="text-right"></td>
                             </tr>
@@ -65,15 +65,13 @@
                                 <th class="text-right">Functions</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="articleTableBody">
                             {{#each articles}}
                                 <tr data-id="{{_id}}">
                                     <td>{{header}}</td>
                                     <td class="text-right">
-                                    <td class="text-right">
-                                        <button class='btn btn-primary btn-xs selectArticle' data-toggle='collapse'
-                                                data-target='#selected{{selectedArticle._id}}'>Make primary
-                                        </button>
+                                        <button class='btn btn-primary btn-xs selectArticle'>Make primary</button>
+                                        <button class='btn btn-danger btn-xs deleteArticle'>Remove</button>
                                         <button class='btn btn-success btn-xs showArticle' data-toggle='collapse'
                                                 data-target='#article{{_id}}'><i
                                                 class='fa fa-expand'></i> Expand
@@ -85,7 +83,7 @@
                                         <div class='collapse panel-collapse container-fluid' id='article{{_id}}'>
                                             <br/>
                                             <div class="well">
-                                                {{body}}
+                                                {{{body}}}
                                             </div>
                                         </div>
                                     </td>
@@ -107,7 +105,7 @@
 </div>
 
 <div class="modal fade" id="createNewArticle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
@@ -163,5 +161,7 @@
         </div>
     </div>
 </div>
-
+<script src="/viewTemplates/admin/compiled/tRowArticleTemplate.js"></script>
+<script src="/viewTemplates/admin/compiled/tRowSelectedArticleTemplate.js"></script>
 <script src="/javascripts/admin/index.js"></script>
+
