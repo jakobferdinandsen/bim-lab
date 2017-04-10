@@ -7,6 +7,7 @@ mongoose.connect('mongodb://mongo:27017/bimlab');
 var Config = require('../models/config');
 var Article = require('../models/article');
 var User = require('../models/user');
+var Crypto = require('crypto');
 
 
 // Insert standard user
@@ -16,6 +17,7 @@ User.find(function (err, users) {
         user.active = true;
         user.email = "admin";
         user.password = user.generateHash('admin');
+        user.apikey = Crypto.randomBytes(10).toString('hex');
         user.save(function (err) {
             if (err) {
                 console.log('Couldnt insert standard login. ' + err);

@@ -7,6 +7,8 @@ templates['tRowUserTemplate'] = template({"compiler":[7,">= 4.0.0"],"main":funct
     + alias4(((helper = (helper = helpers._id || (depth0 != null ? depth0._id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"_id","hash":{},"data":data}) : helper)))
     + "\">\r\n    <td>"
     + alias4(((helper = (helper = helpers.email || (depth0 != null ? depth0.email : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"email","hash":{},"data":data}) : helper)))
+    + "</td>\r\n    <td>"
+    + alias4(((helper = (helper = helpers.apikey || (depth0 != null ? depth0.apikey : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"apikey","hash":{},"data":data}) : helper)))
     + "</td>\r\n    <td class=\"text-right\">\r\n        <button data-email=\""
     + alias4(((helper = (helper = helpers.email || (depth0 != null ? depth0.email : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"email","hash":{},"data":data}) : helper)))
     + "\" class='btn btn-primary btn-xs editUser'>Edit</button>\r\n        <button class='btn btn-danger btn-xs deleteUser'>Remove</button>\r\n    </td>\r\n</tr>";
