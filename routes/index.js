@@ -13,7 +13,6 @@ router.get('/', function (req, res, next) {
             config.save();
         }
         Article.findOne({_id: config.value}, function (err, article) {
-            console.log(article);
             if (article === null || article === undefined) {
                 article = new Article();
                 article.header = "Article not found";
