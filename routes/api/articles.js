@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Article = require('../../models/article');
+var User = require('../../models/user');
 
 router.use(function (req, res, next) {
     console.log(req.url);
@@ -33,7 +34,8 @@ router.route('/:article_id')
     .get(function (req, res) {
         Article.findById(req.params.article_id, function (err, article) {
             if (err) {
-                res.send(err);
+                res.json({error: "Article not found"});
+                return;
             }
             res.json(article);
         });

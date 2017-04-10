@@ -13,7 +13,8 @@ var User = require('../models/user');
 User.find(function (err, users) {
     if (users.length < 1) {
         var user = new User();
-        user.email = "admin@jhaaf.dk";
+        user.active = true;
+        user.email = "admin";
         user.password = user.generateHash('admin');
         user.save(function (err) {
             if (err) {

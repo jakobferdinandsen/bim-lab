@@ -10,6 +10,7 @@ router.use(function (req, res, next) {
 router.route('/')
     .post(isLoggedIn, function (req, res) {
         var user = new User();
+        user.active = true;
         user.email = req.body.email;
         user.password = user.generateHash(req.body.password);
         if (!user.email || !user.password) {
@@ -22,9 +23,8 @@ router.route('/')
             if (err) {
                 res.send(err);
             }
-            res.json({
-                message: 'User created!'
-            });
+            user.password = undefined;
+            res.json(user);
         });
     })
     .get(isLoggedIn, function (req, res) {
@@ -32,6 +32,9 @@ router.route('/')
             if (err) {
                 res.send(err);
             }
+            users.foreach(function (user) {
+                user.password = undefined;
+            });
             res.json(users);
         });
     });
@@ -42,6 +45,7 @@ router.route('/:user_id')
             if (err) {
                 res.send(err);
             }
+            user.password = undefined;
             res.json(user);
         });
     })
@@ -54,13 +58,14 @@ router.route('/:user_id')
                 user.email = req.body.email;
             }
             if (req.body.password !== "") {
-                user.password = req.body.password;
+                user.password =  user.generateHash(req.body.password);
             }
             user.save(function (err) {
                 if (err) {
                     res.send(err);
                 }
-                res.json({message: 'User update!'})
+                user.password = undefined;
+                res.json(user)
             })
         });
     })
@@ -69,11 +74,13 @@ router.route('/:user_id')
             if (err) {
                 res.send(err);
             }
+            user.active = false;
             user.save(function (err) {
                 if (err) {
                     res.send(err);
                 }
-                res.json({message: 'User deactivated!'});
+                user.password = undefined;
+                res.json(user);
             });
         });
     });

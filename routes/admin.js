@@ -2,32 +2,38 @@ var express = require('express');
 var router = express.Router();
 var Article = require('../models/article');
 var Config = require('../models/config');
+var User = require('../models/user');
 
 /* GET Api doc. */
 router.get('/', isLoggedIn, function (req, res, next) {
-    Config.findOne({name: 'selectedArticle'}, function (err, config) {
-        if (config === null) {
-            Article.find(function (err, articles) {
-                res.render('admin/index', {
-                    title: 'BIM Labs Admin interface',
-                    articles: articles
-                });
-            });
-        } else {
-            Article.findOne({_id: config.value}, function (err, article) {
-                Article.find({active: true}, function (err, articles) {
-                    var filteredArticles = articles.filter(function (arrayArticle) {
-                        return String(arrayArticle._id) !== String(article._id);
-
-                    });
+    User.find({active: true}, function (err, users) {
+        users.forEach(function (user) {
+            user.password = undefined;
+        });
+        Config.findOne({name: 'selectedArticle'}, function (err, config) {
+            if (config === null) {
+                Article.find(function (err, articles) {
                     res.render('admin/index', {
                         title: 'BIM Labs Admin interface',
-                        selectedArticle: article,
-                        articles: filteredArticles
+                        articles: articles
                     });
                 });
-            });
-        }
+            } else {
+                Article.findOne({_id: config.value}, function (err, article) {
+                    Article.find({active: true}, function (err, articles) {
+                        var filteredArticles = articles.filter(function (arrayArticle) {
+                            return String(arrayArticle._id) !== String(article._id);
+                        });
+                        res.render('admin/index', {
+                            title: 'BIM Labs Admin interface',
+                            selectedArticle: article,
+                            articles: filteredArticles,
+                            users: users
+                        });
+                    });
+                });
+            }
+        });
     });
 });
 

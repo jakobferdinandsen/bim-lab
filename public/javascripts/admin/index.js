@@ -1,6 +1,7 @@
 $(function () {
     CKEDITOR.replace('ckeditor');
 
+    //Articles
     $(document).on('click', '.showArticle', function () {
         $('.panel-collapse').collapse('hide');
     });
@@ -47,7 +48,7 @@ $(function () {
         var id = $(this).parent().parent().attr('data-id');
         $.ajax({
             method: "DELETE",
-            url: "/api/articles/"+id,
+            url: "/api/articles/" + id,
             data: {
                 value: id
             },
@@ -97,4 +98,74 @@ $(function () {
         tr.next('tr').remove();
         tr.remove();
     }
+
+    //Users
+    $(document).on('click', ".editUser", function () {
+        var userId = $(this).closest('tr').attr('data-userId');
+        var email = $(this).attr('data-email');
+        $("#newEmail").val(email);
+        $("#createUserButton").html("Update");
+        $("#createUserButton").attr('data-userId', userId);
+        $("#createNewUser").modal();
+    });
+
+    $(document).on('click', ".deleteUser", function () {
+        var userId = $(this).closest('tr').attr('data-userId');
+        var email = $(this).attr('data-email');
+        $.ajax({
+            method: "DELETE",
+            url: "/api/users/" + userId,
+            dataType: "json",
+            success: function (user) {
+                removeUser(user);
+            },
+            error: function () {
+                console.log('Wompwomp');
+            }
+        });
+    });
+
+    function clearModal() {
+        $("#newEmail").val("");
+        $("#newPassword").val("");
+        $("#createUserButton").html("Create");
+        $("#createUserButton").attr('data-userId', "");
+    }
+
+    $("#createUserButton").on('click', function () {
+        var email = $("#newEmail").val();
+        var password = $("#newPassword").val();
+        var id = $(this).attr('data-userId');
+        clearModal();
+        var method = "POST";
+        var url = "/api/users";
+        if (id !== "") {
+            method = "PUT";
+            url = "/api/users/" + id;
+        }
+        $.ajax({
+            method: method,
+            url: url,
+            data: {
+                email: email,
+                password: password
+            },
+            success: function (user) {
+                if (id !== "") {
+                    removeUser(user);
+                }
+                addUser(user);
+            }
+        });
+    });
+
+    function addUser(user) {
+        $("#userTableBody").append(Handlebars.templates.tRowUserTemplate(user));
+    }
+
+    function removeUser(user) {
+        $("tr[data-userId='" + user._id + "']").remove();
+    }
+
+
 });
