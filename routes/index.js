@@ -13,13 +13,12 @@ router.get('/', function (req, res, next) {
             config.save();
         }
         Article.findOne({_id: config.value}, function (err, article) {
-            if (article === null) {
-                res.render('index', {
-                    title: 'BIM Lab',
-                    articleHeader: 'Article not found',
-                    articleBody: 'Article not found'
-                });
-                return;
+            console.log(article);
+            if (article === null || article === undefined) {
+                article = new Article();
+                article.header = "Article not found";
+                article.body = "Article not found";
+                article.img = "";
             }
             res.render('index', {
                 title: 'BIM Lab',
