@@ -68,29 +68,44 @@ $(function () {
 
     function changeSelected(newSelectedId) {
         var oldId = $("#selectedRow").children('tr').attr('data-id');
-        $.ajax({
-            method: "GET",
-            url: "/api/articles/" + oldId,
-            dataType: "json",
-            success: function (oldArticle) {
-                $.ajax({
-                    method: "GET",
-                    url: "/api/articles/" + newSelectedId,
-                    dataType: "json",
-                    success: function (newArticle) {
-                        removeArticle(newArticle);
-                        addArticle(oldArticle);
-                        $("#selectedRow").html(Handlebars.templates.tRowSelectedArticleTemplate(newArticle));
-                    },
-                    error: function () {
-                        console.log('Wompwomp');
-                    }
-                })
-            },
-            error: function () {
-                console.log('Wompwomp');
-            }
-        });
+        if (oldId !== undefined) {
+            $.ajax({
+                method: "GET",
+                url: "/api/articles/" + oldId,
+                dataType: "json",
+                success: function (oldArticle) {
+                    $.ajax({
+                        method: "GET",
+                        url: "/api/articles/" + newSelectedId,
+                        dataType: "json",
+                        success: function (newArticle) {
+                            removeArticle(newArticle);
+                            addArticle(oldArticle);
+                            $("#selectedRow").html(Handlebars.templates.tRowSelectedArticleTemplate(newArticle));
+                        },
+                        error: function () {
+                            console.log('Wompwomp');
+                        }
+                    });
+                },
+                error: function () {
+                    console.log('Wompwomp');
+                }
+            });
+        }else{
+            $.ajax({
+                method: "GET",
+                url: "/api/articles/" + newSelectedId,
+                dataType: "json",
+                success: function (newArticle) {
+                    removeArticle(newArticle);
+                    $("#selectedRow").html(Handlebars.templates.tRowSelectedArticleTemplate(newArticle));
+                },
+                error: function () {
+                    console.log('Wompwomp');
+                }
+            });
+        }
     }
 
     function removeArticle(article) {
