@@ -74,6 +74,7 @@
                                     <td>{{header}}</td>
                                     <td class="text-right">
                                         <button class='btn btn-primary btn-xs selectArticle'>Make primary</button>
+                                        <button class='btn btn-primary btn-xs editArticle'>Edit</button>
                                         <button class='btn btn-danger btn-xs deleteArticle'>Remove</button>
                                         <button class='btn btn-success btn-xs showArticle' data-toggle='collapse'
                                                 data-target='#article{{_id}}'><i
@@ -153,7 +154,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button id="createArticleButton" type="button" class="btn btn-primary" data-dismiss="modal">Create
+                <button data-articleId="" id="createArticleButton" type="button" class="btn btn-primary" data-dismiss="modal">Create
                     article
                 </button>
             </div>

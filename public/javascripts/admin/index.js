@@ -6,18 +6,50 @@ $(function () {
         $('.panel-collapse').collapse('hide');
     });
 
+    $(document).on('click', ".editArticle", function () {
+        var articleId = $(this).closest('tr').attr('data-id');
+        var header = jQuery($(this).parent().parent().children()[0]).text();
+        var body = $(this).closest('tr').next('tr').find('div.well').html();
+        console.log(body);
+        $("#newHeader").val(header);
+        CKEDITOR.instances['ckeditor'].setData(body);
+        $("#createArticleButton").html("Update");
+        $("#createArticleButton").attr('data-articleId', articleId);
+        $("#createNewArticle").modal();
+    });
+
+    function clearArticleModal() {
+        $("#newHeader").val("");
+        CKEDITOR.instances['ckeditor'].setData("");
+        $("#createArticleButton").html("Create");
+        $("#createArticleButton").attr('data-articleId', "");
+    }
+
+    $("button[data-target='#createNewArticle']").on('click',function () {
+        clearArticleModal();
+    });
+
     $("#createArticleButton").on('click', function () {
         var header = $("#newHeader").val();
         var body = CKEDITOR.instances['ckeditor'].getData();
+        var id = $(this).attr('data-articleId');
+        var method = "POST";
+        var url = "/api/articles";
+        if (id !== "") {
+            method = "PUT";
+            url = "/api/articles/" + id;
+        }
         $.ajax({
-            method: "POST",
-            url: "/api/articles",
+            method: method,
+            url: url,
             data: {
                 header: header,
                 body: body
             },
-            dataType: "json",
             success: function (article) {
+                if (id !== "") {
+                    removeArticle(article);
+                }
                 addArticle(article);
             },
             error: function () {
@@ -49,9 +81,6 @@ $(function () {
         $.ajax({
             method: "DELETE",
             url: "/api/articles/" + id,
-            data: {
-                value: id
-            },
             dataType: "json",
             success: function (article) {
                 removeArticle(article);
@@ -92,7 +121,7 @@ $(function () {
                     console.log('Wompwomp');
                 }
             });
-        }else{
+        } else {
             $.ajax({
                 method: "GET",
                 url: "/api/articles/" + newSelectedId,
@@ -115,6 +144,10 @@ $(function () {
     }
 
     //Users
+    $("button[data-target='#createNewUser']").on('click',function () {
+        clearUserModal();
+    });
+
     $(document).on('click', ".editUser", function () {
         var userId = $(this).closest('tr').attr('data-userId');
         var email = $(this).attr('data-email');
@@ -140,7 +173,7 @@ $(function () {
         });
     });
 
-    function clearModal() {
+    function clearUserModal() {
         $("#newEmail").val("");
         $("#newPassword").val("");
         $("#createUserButton").html("Create");
@@ -151,7 +184,7 @@ $(function () {
         var email = $("#newEmail").val();
         var password = $("#newPassword").val();
         var id = $(this).attr('data-userId');
-        clearModal();
+        clearUserModal();
         var method = "POST";
         var url = "/api/users";
         if (id !== "") {
@@ -170,6 +203,9 @@ $(function () {
                     removeUser(user);
                 }
                 addUser(user);
+            },
+            error: function () {
+                console.log('Wompwomp');
             }
         });
     });

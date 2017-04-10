@@ -55,7 +55,7 @@ router.route('/:article_id')
                 if (err) {
                     res.send(err);
                 }
-                res.json({message: 'Article update!'})
+                res.json(article);
             })
         });
     })
