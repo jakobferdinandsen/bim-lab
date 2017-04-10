@@ -8,7 +8,7 @@ router.use(function (req, res, next) {
 });
 
 router.route('/')
-    .post(function (req, res) {
+    .post(isLoggedIn, function (req, res) {
         var config = new Config();
         config.active = 1;
         config.name = req.body.name;
@@ -22,7 +22,7 @@ router.route('/')
             });
         });
     })
-    .get(function (req, res) {
+    .get(isLoggedIn, function (req, res) {
         Config.find(function (err, configs) {
             if (err) {
                 res.send(err);

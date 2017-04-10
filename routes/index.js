@@ -11,7 +11,6 @@ router.get('/', function (req, res, next) {
                 title: 'BIM Lab',
                 articleHeader: 'Config not found',
                 articleBody: 'Config not found',
-                articleImage: 'https://upload.wikimedia.org/wikipedia/en/timeline/fe8adfad0b276ed3a6e90ce75db72f26.png'
             });
             return;
         }
@@ -21,7 +20,6 @@ router.get('/', function (req, res, next) {
                     title: 'BIM Lab',
                     articleHeader: 'Article not found',
                     articleBody: 'Article not found',
-                    articleImage: 'https://upload.wikimedia.org/wikipedia/en/timeline/fe8adfad0b276ed3a6e90ce75db72f26.png'
                 });
                 return;
             }
