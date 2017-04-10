@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../../models/user');
+var Crypto = require('crypto');
 
 router.use(function (req, res, next) {
     console.log(req.url);
@@ -13,6 +14,7 @@ router.route('/')
         user.active = true;
         user.email = req.body.email;
         user.password = user.generateHash(req.body.password);
+        user.apikey = Crypto.randomBytes(10).toString('hex');
         if (!user.email || !user.password) {
             res.json({
                 message: 'email & password required'

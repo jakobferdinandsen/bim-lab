@@ -55,6 +55,7 @@ app.use('/api', api);
 app.use('/api/articles', articles);
 app.use('/api/configs', configs);
 app.use('/api/users', users);
+api.passport(app, passport);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
