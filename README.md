@@ -8,7 +8,8 @@ This repo is an answer to a mandatory assignment at ZIBAT
 ### With Docker
 run "docker-compose up -d" in the root of the project, if no user exists in the mongo container, go to /admin/firstUser to create an admin/admin user
 
-After project is up, webserver listens to <hostname>:10000
+After project is up, webserver listens to \<hostname\>:10000
+
 The port is defined in docker-compose.yml
 
 ### Without Docker
