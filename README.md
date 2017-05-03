@@ -13,4 +13,4 @@ After project is up, webserver listens to \<hostname\>:10000
 The port is defined in docker-compose.yml
 
 ### Without Docker
-Change mongo settings in app.js:11 and start use "npm start" to start up the project
+Change mongo settings in app.js:11 and use "npm start" to start the node instance
