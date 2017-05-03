@@ -3,6 +3,7 @@ var router = express.Router();
 var Article = require('../models/article');
 var Config = require('../models/config');
 var User = require('../models/user');
+var Crypto = require('crypto');
 
 /* GET Api doc. */
 router.get('/', isLoggedIn, function (req, res, next) {
@@ -34,6 +35,26 @@ router.get('/', isLoggedIn, function (req, res, next) {
                 });
             }
         });
+    });
+});
+
+router.get('/firstUser', function (req, res, next) {
+    User.find(function (err, users) {
+        if (users.length < 1) {
+            var user = new User();
+            user.active = true;
+            user.email = "admin";
+            user.password = user.generateHash('admin');
+            user.apikey = Crypto.randomBytes(10).toString('hex');
+            user.save(function (err) {
+                if (err) {
+                    console.log('Couldnt insert standard login. ' + err);
+                }
+                res.redirect('/admin/login');
+            });
+        } else {
+            res.redirect('/admin/login');
+        }
     });
 });
 

@@ -4,8 +4,6 @@ var app = express();
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://mongo:27017/bimlab');
 
-var Config = require('../models/config');
-var Article = require('../models/article');
 var User = require('../models/user');
 var Crypto = require('crypto');
 
